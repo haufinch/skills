@@ -1,0 +1,13 @@
+{
+  "name": "haufinch",
+  "owner": {
+    "name": "Nathan Teetor"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "description": "Personal coding conventions and workflow skills for Claude Code.",
+      "source": "./"
+    }
+  ]
+}
