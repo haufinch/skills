@@ -68,8 +68,8 @@ Name functions `(group)?_(subgroup)_(action|assertion)?_(subject)?`.
 
 ## Function definition layout
 
-Define standalone functions with `<-` on its own line, then an indented
-`function(`, one argument per line:
+Define standalone functions with the function name and `<-` on one line, then an 
+indented `function(`, one argument per line:
 
 ```r
 budget_table_fetch <-
