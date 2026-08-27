@@ -5,7 +5,7 @@
   },
   "plugins": [
     {
-      "name": "skills",
+      "name": "nteetor",
       "description": "Personal coding conventions and workflow skills for Claude Code.",
       "source": "./"
     }
