@@ -20,6 +20,7 @@ A restart is required before a newly installed or updated plugin takes effect.
 | Skill | Loads when |
 | --- | --- |
 | `r-conventions` | Writing or editing R — naming, argument, and layout conventions. |
+| `soroban-apply` | Implementing an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. |
 
 ## Layout
 
