@@ -74,7 +74,31 @@ apply-side companion is the `soroban-apply` skill.
    openspec new change <name> --schema soroban
    ```
 
-4. **Verify**
+4. **Offer a routing line for agents**
+
+   The generated `/opsx:apply` and `/opsx:archive` commands never consult
+   plugin skills, and in free text an agent cannot tell a soroban change from a
+   spec-driven one without checking. A one-line instruction in the project's
+   agent file is what routes both cases to the right skill.
+
+   Ask whether to add it. Do not write without an answer. On yes, append this
+   paragraph, verbatim, as its own section:
+
+   ```markdown
+   ## OpenSpec
+
+   Changes here use the `soroban` schema. Implement them with `soroban-apply`
+   and archive them with `soroban-archive` — including when `/opsx:apply` or
+   `/opsx:archive` is invoked. When unsure of a change's schema, check
+   `schemaName` in `openspec status --change <name> --json` before choosing.
+   ```
+
+   Where to append: `AGENTS.md` if it exists; otherwise `CLAUDE.md`; if neither
+   exists, create `CLAUDE.md` with just this section. If `CLAUDE.md` is only an
+   `@AGENTS.md` include, `AGENTS.md` is the real file — write there. Skip the
+   append, and say so, if the file already names `soroban-apply`.
+
+5. **Verify**
 
    ```bash
    openspec schema which soroban --json
@@ -84,10 +108,11 @@ apply-side companion is the `soroban-apply` skill.
    and `validate` must pass. Report both results. If `source` is `user` instead,
    the copy did not land where it should have — say so rather than proceeding.
 
-5. **Report**
+6. **Report**
 
-   Say what changed: the schema path, whether `config.yaml` was edited, and the
-   `bd` availability noted in step 1. If `which` reported a shadowed user-global
+   Say what changed: the schema path, whether `config.yaml` was edited, whether
+   the routing line was added and to which file, and the `bd` availability noted
+   in step 1. If `which` reported a shadowed user-global
    copy, mention that the project copy now takes precedence over it.
 
    Point at `/opsx:propose` to create a change and `soroban-apply` to implement
@@ -100,6 +125,7 @@ apply-side companion is the `soroban-apply` skill.
 
 **Schema:** openspec/schemas/soroban (source: project)
 **Default:** set in openspec/config.yaml | not set — use --schema soroban per change
+**Routing:** added to AGENTS.md | already present | skipped
 **Validation:** ✓ passed
 **beads:** bd available, .beads/ present | bd not found — needed by soroban-apply
 
@@ -108,8 +134,9 @@ Create a change with `/opsx:propose`, implement it with `soroban-apply`.
 
 **Guardrails**
 - Never overwrite an existing schema copy without showing the diff and asking.
-- Never edit anything outside `openspec/`, and within `config.yaml` change only
-  the `schema:` line.
+- Within `config.yaml` change only the `schema:` line. Outside `openspec/`,
+  touch only the agent file from step 4, only by appending, and only after the
+  user says yes.
 - Never run `openspec init` or `bd init` — both make structural decisions that
   belong to the user.
 - Verify from `openspec schema which`, not from the copy appearing to succeed.

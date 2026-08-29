@@ -173,6 +173,10 @@ apply:
     - design
   tracks: null
   instruction: |
+    If a `soroban-apply` skill is available, use it for this change instead of
+    the generic apply workflow — it carries the beads workflow below plus the
+    guardrails that go with it. Otherwise, follow the steps here directly.
+
     Implementation work is tracked in beads (bd), not in a markdown checklist.
     There is no tasks artifact in this schema and no checkbox file to parse or
     update - `bd` is the single source of truth for what is left to do.

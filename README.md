@@ -22,6 +22,7 @@ A restart is required before a newly installed or updated plugin takes effect.
 | `r-conventions` | Writing or editing R — naming, argument, and layout conventions. |
 | `soroban-init` | Setting up the `soroban` schema in a project. |
 | `soroban-apply` | Implementing an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. Run `soroban-init` first. |
+| `soroban-archive` | Archiving a `soroban` change — gates on open beads issues, then defers to `openspec-archive-change`. |
 
 ## Schemas
 
@@ -29,6 +30,10 @@ A restart is required before a newly installed or updated plugin takes effect.
 schema, which ships here at `openspec/schemas/soroban/`. It is `spec-driven`
 with the `tasks` artifact removed: proposal, specs, and design stay as files;
 the implementation breakdown lives in beads.
+
+`soroban-apply` and `soroban-archive` replace the generated `openspec-apply-change`
+and `openspec-archive-change` for such changes; the other generated skills
+(propose, update, sync, explore) work with `soroban` unmodified.
 
 Installing the plugin does not install the schema — openspec resolves schemas
 from its own directories, not from plugins. In an OpenSpec project, run:

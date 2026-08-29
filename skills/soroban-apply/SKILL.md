@@ -1,6 +1,6 @@
 ---
 name: soroban-apply
-description: Implement an OpenSpec change whose work is tracked in beads (bd) rather than a tasks.md checklist. Use when the user wants to start, continue, or work through implementation of a change created with the soroban schema.
+description: Implement an OpenSpec change whose work is tracked in beads (bd) rather than a tasks.md checklist. Use instead of openspec-apply-change whenever the change's schema is soroban, including when /opsx:apply is invoked; if the schema is unknown, check schemaName in `openspec status --change <name> --json` before choosing.
 allowed-tools: Bash(openspec:*), Bash(bd:*)
 license: MIT
 compatibility: Requires the openspec CLI and the bd (beads) CLI, and a change using the soroban schema.
@@ -136,7 +136,7 @@ omitted, infer from conversation context; if ambiguous, prompt.
    bd stats
    ```
    Report progress as `bd` reports it. If every issue under the epic is closed,
-   say the change is ready for `/opsx:archive`. If paused, say why and wait.
+   say the change is ready for `soroban-archive`. If paused, say why and wait.
 
 9. **Git policy**
 
@@ -170,7 +170,7 @@ Working on <issue-id>: <title>
 - <issue-id> <title> — verified by <check>
 
 `bd list --status=open` reports no open issues under this epic.
-Ready to archive with `/opsx:archive`.
+Ready to archive with `soroban-archive`.
 ```
 
 **Output On Pause**
