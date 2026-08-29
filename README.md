@@ -20,7 +20,40 @@ A restart is required before a newly installed or updated plugin takes effect.
 | Skill | Loads when |
 | --- | --- |
 | `r-conventions` | Writing or editing R — naming, argument, and layout conventions. |
-| `soroban-apply` | Implementing an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. |
+| `soroban-init` | Setting up the `soroban` schema in a project. |
+| `soroban-apply` | Implementing an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. Run `soroban-init` first. |
+
+## Schemas
+
+`soroban-apply` only fires on changes created with the `soroban` OpenSpec
+schema, which ships here at `openspec/schemas/soroban/`. It is `spec-driven`
+with the `tasks` artifact removed: proposal, specs, and design stay as files;
+the implementation breakdown lives in beads.
+
+Installing the plugin does not install the schema — openspec resolves schemas
+from its own directories, not from plugins. In an OpenSpec project, run:
+
+```
+/nteetor:soroban-init
+```
+
+It copies the schema out of the plugin, offers to make it the project default,
+and verifies the result. Without Claude Code, do the same by hand:
+
+```sh
+npx degit haufinch/skills/openspec/schemas/soroban openspec/schemas/soroban
+```
+
+then set `schema: soroban` in `openspec/config.yaml`, or pass
+`--schema soroban` to `openspec new change`. Either way, verify with
+`openspec schema which soroban`.
+
+`skills.txt` inside the schema directory names the skill that pairs with it,
+following the [convention community schemas use][community]. The plugin already
+delivers that skill; the file is there so the schema installs correctly for
+anyone following the standard flow.
+
+[community]: https://github.com/Fission-AI/OpenSpec/blob/main/docs/customization.md
 
 ## Layout
 
@@ -30,9 +63,13 @@ A restart is required before a newly installed or updated plugin takes effect.
   marketplace.json   self-hosted marketplace, name "haufinch", source "./"
 skills/
   <skill-name>/SKILL.md
+openspec/schemas/
+  <schema-name>/schema.yaml, templates/, skills.txt
 ```
 
 `skills/` is scanned automatically for subdirectories containing a `SKILL.md`.
+`openspec/schemas/` is not read by the plugin at all — it is a copy source for
+the install commands above.
 
 ## Adding a skill
 
