@@ -1,5 +1,5 @@
 ---
-name: r-conventions
+name: r
 description: R code conventions for this user — function and argument naming schemes, argument defaults, function definition layout, package installation, and formatting with air. Load before writing or editing any R file (.R, .r, .Rmd, .qmd).
 ---
 
@@ -110,6 +110,8 @@ avoiding collisions with user arguments in functions taking `...`:
 
 - Required arguments do not have default values.
 - Prefer enumerated choices over booleans: `na = c("drop", "error")`, not
-  `na.rm = TRUE`. See <https://design.tidyverse.org/boolean-strategies.html>.
+  `na.rm = TRUE`. This holds even when there are only two choices — an
+  argument that could be a flag is still an enumerated choice. See
+  <https://design.tidyverse.org/boolean-strategies.html>.
 - Match the choice in the body with `match.arg()` or `rlang::arg_match()`.
 - Arguments with defaults come after `...`, when `...` is present.

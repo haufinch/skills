@@ -19,31 +19,31 @@ A restart is required before a newly installed or updated plugin takes effect.
 
 | Skill | Loads when |
 | --- | --- |
-| `r-conventions` | Writing or editing R — naming, argument, and layout conventions. |
-| `soroban-init` | Setting up the `soroban` schema in a project. |
-| `soroban-apply` | Implementing an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. Run `soroban-init` first. |
-| `soroban-archive` | Archiving a `soroban` change — gates on open beads issues, then defers to `openspec-archive-change`. |
+| `r` | Writing or editing R — naming, argument, and layout conventions. |
+| `git` | Writing a commit message, opening or merging a pull request, or changing repository merge settings. |
+| `soroban` | Setting up, implementing, or archiving an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. |
 
 ## Schemas
 
-`soroban-apply` only fires on changes created with the `soroban` OpenSpec
-schema, which ships here at `openspec/schemas/soroban/`. It is `spec-driven`
-with the `tasks` artifact removed: proposal, specs, and design stay as files;
-the implementation breakdown lives in beads.
+The `soroban` skill works on changes created with the `soroban` OpenSpec schema,
+which ships here at `openspec/schemas/soroban/`. It is `spec-driven` with the
+`tasks` artifact removed: proposal, specs, and design stay as files; the
+implementation breakdown lives in beads.
 
-`soroban-apply` and `soroban-archive` replace the generated `openspec-apply-change`
-and `openspec-archive-change` for such changes; the other generated skills
-(propose, update, sync, explore) work with `soroban` unmodified.
+The skill replaces the generated `openspec-apply-change` and
+`openspec-archive-change` for such changes; the other generated skills (propose,
+update, sync, explore) work with `soroban` unmodified.
 
 Installing the plugin does not install the schema — openspec resolves schemas
 from its own directories, not from plugins. In an OpenSpec project, run:
 
 ```
-/nteetor:soroban-init
+/nteetor:soroban init
 ```
 
 It copies the schema out of the plugin, offers to make it the project default,
-and verifies the result. Without Claude Code, do the same by hand:
+adds a routing line to the project's agent file, and verifies the result.
+Without Claude Code, do the same by hand:
 
 ```sh
 npx degit haufinch/skills/openspec/schemas/soroban openspec/schemas/soroban
@@ -68,6 +68,7 @@ anyone following the standard flow.
   marketplace.json   self-hosted marketplace, name "haufinch", source "./"
 skills/
   <skill-name>/SKILL.md
+  <skill-name>/references/<operation>.md   loaded on demand, when the body says to
 openspec/schemas/
   <schema-name>/schema.yaml, templates/, skills.txt
 ```
@@ -92,6 +93,13 @@ trigger, not just the topic. Skills fire when the model judges a task to match �
 for conventions that apply to every edit, add a pointer line in `AGENTS.md`
 naming the skill and when to load it, rather than relying on the description
 alone.
+
+Name a skill for its domain, as a noun: `r`, `git`, `soroban`. Operations within
+a domain are arguments and reference files, not separate skills — one resident
+description instead of several, and one name for other files to point at. Put
+the shared steps in `SKILL.md` and the per-operation steps in
+`references/<operation>.md`, linked from the body so they load only when needed.
+Keep `SKILL.md` under 500 lines.
 
 ## Updating
 
