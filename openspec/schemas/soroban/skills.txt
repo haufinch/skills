@@ -1,2 +1,1 @@
-soroban-apply
-soroban-archive
+soroban

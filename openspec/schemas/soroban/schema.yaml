@@ -173,69 +173,36 @@ apply:
     - design
   tracks: null
   instruction: |
-    If a `soroban-apply` skill is available, use it for this change instead of
-    the generic apply workflow — it carries the beads workflow below plus the
-    guardrails that go with it. Otherwise, follow the steps here directly.
+    If a `soroban` skill is available, use it for this change — run its `apply`
+    operation. It carries this workflow plus the guardrails that go with it.
+    Otherwise follow the summary below.
 
     Implementation work is tracked in beads (bd), not in a markdown checklist.
     There is no tasks artifact in this schema and no checkbox file to parse or
-    update - `bd` is the single source of truth for what is left to do.
+    update - `bd` is the single source of truth for what is left to do. Never
+    create one, and never track this work with a todo tool.
 
-    Before starting, run `bd prime` if you have not already this session.
+    Run `bd prime` once per session if it has not run already.
 
-    1. Decompose the change into beads issues.
+    1. Read proposal.md, the spec deltas, and design.md. Search with
+       `bd search <change-name>` for an existing epic; if none, create one whose
+       title names the OpenSpec change, then one child issue per unit of work
+       finishable in a session. Every child states how completion is verified in
+       `--acceptance`. Order them with `bd dep add` so `bd ready` shows only
+       startable work. The epic's title is the only link between the two
+       systems.
 
-       Read proposal.md, the spec deltas, and design.md, then create one epic for
-       the change and one child issue per unit of work:
+    2. Work `bd ready` in dependency order: `bd update <id> --claim`, implement,
+       verify against the acceptance criteria by running the test or command,
+       then `bd close <id>`. Never close on an unverified change. Report
+       progress as `bd` reports it.
 
-           bd create --title="<change-name>: <short summary>" \
-             --description="Implements the OpenSpec change <change-name>. Plan:
-           openspec/changes/<change-name>/" --type=epic --priority=2
-
-           bd create --title="<task>" --description="<why this exists and what to do>" \
-             --parent=<epic-id> --type=task --priority=2 \
-             --acceptance="<how completion is verified>"
-
-       The epic's title and description MUST name the OpenSpec change, so
-       `bd search <change-name>` resolves the change to its issues and back.
-       This is the only link between the two systems - there is no index file.
-
-       Rules for the breakdown:
-       - One issue per unit of work that can be finished in a session.
-       - Every issue MUST state how completion is verified: a test, a command, an
-         observable behavior, or a delivered artifact. Put it in --acceptance.
-       - Order by dependency with `bd dep add <issue> <depends-on>`, so
-         `bd ready` shows only work that is actually startable.
-       - Reuse existing issues where the work is already filed rather than
-         creating duplicates; search first with `bd search`.
-       - Creating many issues at once is faster with parallel subagents.
-
-       If issues for this change already exist, skip creation and continue from
-       `bd ready`.
-
-    2. Work the issues.
-
-       For each issue, in dependency order:
-       - `bd update <id> --claim` before starting.
-       - Implement it, following design.md for approach and the spec deltas for
-         required behavior.
-       - Verify it by its acceptance criteria.
-       - `bd close <id>` when it is done and verified. Never close on the
-         strength of an unverified change.
-
-       Report progress as `bd` reports it - run `bd stats` or
-       `bd list --status=open` rather than counting by hand.
-
-    3. Pause and ask when:
-       - A spec requirement is ambiguous or contradicts the design.
-       - Work appears that is not in any issue. File it with `bd create` and say
-         so; do not absorb unplanned scope silently, and do not drop, narrow, or
-         defer specified behavior to make an issue fit.
-       - An issue is blocked. Leave it open, record why in `--notes`, and move to
-         the next ready issue.
+    3. Pause and ask when a requirement is ambiguous or contradicts the design,
+       when work appears that no issue covers (file it with `bd create` and say
+       so), or when an issue is blocked (leave it open, record why in `--notes`,
+       move to the next ready issue).
 
     4. Follow the repository's git policy. Conservative is the default: do not
-       commit, push, or sync the beads remote unless the active profile or the
-       user's current request grants that authority.
+       commit, push, or sync the beads remote without explicit authority.
 
     The change is ready to archive when every issue under its epic is closed.
