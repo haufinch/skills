@@ -27,7 +27,7 @@ Write `type(scope): summary`.
   `gh actions`.
 - `summary` is lowercase and imperative: `upload a batch's files
   concurrently`, not `Uploads a batch's files concurrently`.
-- Limit `summary` to 50 characters. 
+- Limit `summary` to 50 characters.
 - Leave existing history alone; the rule applies to new commits and PR
   titles only.
 
@@ -47,18 +47,59 @@ for ids. A commit without the id is invisible to it.
 ## Commit bodies
 
 - Separate the body from the subject line with a single line.
-- Wrap commit message bodies at 72 characters. 
+- Wrap commit message bodies at 72 characters.
 - Explain what changed and why, not how. Assume the code explains the how.
+- End with a `Co-Authored-By: Name <email>` trailer for each additional
+  author. An agent that wrote the commit adds its own, e.g.
+  `Co-Authored-By: Claude <noreply@anthropic.com>`.
+
 
 ## Pull requests
+
+Before opening, the branch must:
+
+- Contain one logical change. Unrelated refactors and restyling go in
+  a separate pull request.
+- Include tests: a fix starts with a test that fails without it; a
+  feature ships with tests for its behavior.
+- Update documentation for any public interface it changes.
+- Add a changelog entry for user-visible changes, in the project's
+  file and format.
+- Pass CI.
+
+The pull request itself:
 
 - Title follows the commit subject rule above.
 - Do not hard-wrap the body; GitHub soft-wraps. One line per paragraph.
 
+Include the following sections:
+
+**Purpose**
+
+The intention of the pull request.
+
+- A concise paragraph.
+- Emulate Standard Technical English.
+- Reference and close related GitHub issues.
+
+**Details**
+
+A technical summary of the changes.
+
+- One or more paragraphs.
+- Summarize by component or behavior. Do not restate the diff.
+- Include usage examples, if relevant.
+
+**Testing**
+
+How to test the changes.
+
+- A checklist of reproducible commands or manual steps.
+- If nothing can be verified, include a sentence explaining why (for example, "Documentation only, no behavior changes.").
+
 ## Merging
 
-The merge method follows the pull request's origin. What lands on `main` must 
-carry the bead ids and trailers necessary for `bd orphans`.
+The merge method follows the pull request's origin.
 
 - A branch in this repository (the maintainer's or an agent's): merge
   commit. The branch commits are the record — bead ids in subjects,
