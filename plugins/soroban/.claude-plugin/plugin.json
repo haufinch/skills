@@ -1,0 +1,8 @@
+{
+  "name": "soroban",
+  "description": "Nathan Teetor's skills and schema for project development using OpenSpec with beads task tracking.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Nathan Teetor"
+  }
+}

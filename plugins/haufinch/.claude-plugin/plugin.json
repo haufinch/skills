@@ -1,0 +1,8 @@
+{
+  "name": "haufinch",
+  "description": "Nathan Teetor's coding convention skills for git and R.",
+  "version": "0.5.0",
+  "author": {
+    "name": "Nathan Teetor"
+  }
+}

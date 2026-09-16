@@ -1,6 +1,8 @@
 # skills
 
-Personal Claude Code skills, packaged as the `nteetor` plugin.
+Personal Claude Code skills, published from the `haufinch` marketplace as two
+plugins: `haufinch` (coding conventions) and `soroban` (OpenSpec changes
+tracked in beads).
 
 Skills hold instructions that would otherwise sit in `CLAUDE.md` consuming
 context in every session. A skill's description stays resident; its body loads
@@ -10,25 +12,28 @@ only when the skill is invoked.
 
 ```sh
 claude plugin marketplace add haufinch/skills
-claude plugin install nteetor@haufinch
+claude plugin install haufinch@haufinch
+claude plugin install soroban@haufinch
 ```
+
+Install either plugin on its own; neither depends on the other.
 
 A restart is required before a newly installed or updated plugin takes effect.
 
 ## Skills
 
-| Skill | Loads when |
-| --- | --- |
-| `r` | Writing or editing R — naming, argument, and layout conventions. |
-| `git` | Writing a commit message, opening or merging a pull request, or changing repository merge settings. |
-| `soroban` | Setting up, implementing, or archiving an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. |
+| Plugin | Skill | Loads when |
+| --- | --- | --- |
+| `haufinch` | `r` | Writing or editing R — naming, argument, and layout conventions. |
+| `haufinch` | `git` | Writing a commit message, opening or merging a pull request, or changing repository merge settings. |
+| `soroban` | `soroban` | Setting up, implementing, or archiving an OpenSpec change tracked in beads (`bd`) rather than `tasks.md`. |
 
 ## Schemas
 
 The `soroban` skill works on changes created with the `soroban` OpenSpec schema,
-which ships here at `openspec/schemas/soroban/`. It is `spec-driven` with the
-`tasks` artifact removed: proposal, specs, and design stay as files; the
-implementation breakdown lives in beads.
+which ships inside the plugin at `plugins/soroban/openspec/schemas/soroban/`.
+It is `spec-driven` with the `tasks` artifact removed: proposal, specs, and
+design stay as files; the implementation breakdown lives in beads.
 
 The skill replaces the generated `openspec-apply-change` and
 `openspec-archive-change` for such changes; the other generated skills (propose,
@@ -38,7 +43,7 @@ Installing the plugin does not install the schema — openspec resolves schemas
 from its own directories, not from plugins. In an OpenSpec project, run:
 
 ```
-/nteetor:soroban init
+/soroban:soroban init
 ```
 
 It copies the schema out of the plugin, offers to make it the project default,
@@ -46,7 +51,7 @@ adds a routing line to the project's agent file, and verifies the result.
 Without Claude Code, do the same by hand:
 
 ```sh
-npx degit haufinch/skills/openspec/schemas/soroban openspec/schemas/soroban
+npx degit haufinch/skills/plugins/soroban/openspec/schemas/soroban openspec/schemas/soroban
 ```
 
 then set `schema: soroban` in `openspec/config.yaml`, or pass
@@ -64,22 +69,24 @@ anyone following the standard flow.
 
 ```
 .claude-plugin/
-  plugin.json        plugin manifest, name "nteetor"
-  marketplace.json   self-hosted marketplace, name "haufinch", source "./"
-skills/
-  <skill-name>/SKILL.md
-  <skill-name>/references/<operation>.md   loaded on demand, when the body says to
-openspec/schemas/
-  <schema-name>/schema.yaml, templates/, skills.txt
+  marketplace.json   self-hosted marketplace, name "haufinch"; one entry per plugin
+plugins/
+  <plugin-name>/
+    .claude-plugin/plugin.json               plugin manifest
+    skills/<skill-name>/SKILL.md
+    skills/<skill-name>/references/<operation>.md   loaded on demand, when the body says to
+    openspec/schemas/<schema-name>/          schema.yaml, templates/, skills.txt (soroban only)
 ```
 
-`skills/` is scanned automatically for subdirectories containing a `SKILL.md`.
-`openspec/schemas/` is not read by the plugin at all — it is a copy source for
-the install commands above.
+Each marketplace entry points at its plugin directory, and that directory is
+what installs. A plugin's `skills/` is scanned automatically for subdirectories
+containing a `SKILL.md`. `openspec/schemas/` is not read by the plugin at all —
+the `soroban` skill copies it into a project, so it has to live inside that
+plugin's directory.
 
 ## Adding a skill
 
-Create `skills/<name>/SKILL.md` with YAML frontmatter:
+Create `plugins/<plugin>/skills/<name>/SKILL.md` with YAML frontmatter:
 
 ```markdown
 ---
@@ -103,13 +110,13 @@ Keep `SKILL.md` under 500 lines.
 
 ## Updating
 
-The plugin installs from a cached git clone, not from this working copy. Push
-first, then:
+A plugin installs from a cached git clone, not from this working copy. Push
+first, then, for whichever plugin changed:
 
 ```sh
 claude plugin marketplace update haufinch
-claude plugin uninstall nteetor@haufinch
-claude plugin install nteetor@haufinch
+claude plugin uninstall haufinch@haufinch
+claude plugin install haufinch@haufinch
 ```
 
 Refreshing the marketplace is the step that matters — installing alone reuses

@@ -1,13 +1,19 @@
 {
   "name": "haufinch",
+  "description": "Nathan Teetor's Claude Code plugins.",
   "owner": {
     "name": "Nathan Teetor"
   },
   "plugins": [
     {
-      "name": "nteetor",
-      "description": "Personal coding conventions and workflow skills for Claude Code.",
-      "source": "./"
+      "name": "haufinch",
+      "description": "Nathan Teetor's coding convention skills for git and R.",
+      "source": "./plugins/haufinch"
+    },
+    {
+      "name": "soroban",
+      "description": "Nathan Teetor's skills and schema for project development using OpenSpec with beads task tracking.",
+      "source": "./plugins/soroban"
     }
   ]
 }
