@@ -1,6 +1,6 @@
 ---
 name: git
-description: Git and GitHub conventions for this user — commit subject format, issue references, trailers, pull request bodies, and merge strategy. Load before writing a commit message, opening or merging a pull request, or changing repository merge settings.
+description: Git and GitHub conventions for this user — commit subject format, issue references, trailers, pull request bodies, comments, and merge strategy. Load before writing a commit message, opening or merging a pull request, posting a comment on a pull request or issue, or changing repository merge settings.
 ---
 
 # Git conventions
@@ -96,6 +96,19 @@ How to test the changes.
 
 - A checklist of reproducible commands or manual steps.
 - If nothing can be verified, include a sentence explaining why (for example, "Documentation only, no behavior changes.").
+
+An agent that wrote the pull request ends the body with its attribution
+line:
+
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```
+
+## Comments
+
+A comment the agent posts on a pull request or issue, including a review
+comment, ends with the same attribution line as a pull request body. This
+holds for a comment edited after posting: add the line if it is missing.
 
 ## Merging
 
